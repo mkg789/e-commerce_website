@@ -19,9 +19,33 @@ def home():
 def cart():
     return render_template('cart.html')
 
-@app.route('/checkout')
+@app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
-    return render_template('checkout.html')
+    if request.method == 'GET':
+        return render_template('checkout.html')
+    elif request.method == 'POST':
+        data = request.get_json()
+        name = data.get('name')
+        address = data.get('address')
+        payment = data.get('payment')
+        cart = data.get('cart')
+
+        print("Order received:", data)  # Debug
+
+        # Calculate total (hardcoded prices or fetched from DB if needed)
+        prices = {
+            'chocobar': 10.0,
+            'noodels': 15.0
+        }
+        total = 0
+        for item, qty in cart.items():
+            price = prices.get(item, 0)
+            total += price * qty
+
+        # Here you could also save the order to a database
+
+        return jsonify({'success': True, 'total': total})
+
 
 @app.route('/login')
 def login():
