@@ -1,0 +1,441 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f8f9fa;
+}
+
+#head {
+    background: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 0 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+nav ul li a:hover {
+    background: #495057;
+}
+
+#content {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+#catalog {
+    margin-top: 30px;
+}
+
+.item {
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f1f3f4;
+}
+
+.quantity-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.quantity-controls button {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.quantity-controls button:hover {
+    background: #0056b3;
+}
+
+.item button {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+.item button:hover {
+    background: #218838;
+}
+
+#footer {
+    text-align: center;
+    padding: 20px 0;
+    background: #343a40;
+    color: #fff;
+    margin-top: 40px;
+    border-radius: 0 0 8px 8px;
+}
+/* Cart Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    color: #343a40;
+}
+
+table {
+    margin: 30px auto;
+    border-collapse: collapse;
+    width: 80%;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 16px 12px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+th {
+    background: #343a40;
+    color: #fff;
+    font-size: 18px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+button {
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #b52a37;
+}
+
+h3 {
+    text-align: right;
+    margin-right: 10%;
+    color: #333;
+    font-size: 22px;
+}
+
+@media (max-width: 700px) {
+    table, th, td {
+        font-size: 14px;
+    }
+    h3 {
+        font-size: 18px;
+        margin-right: 5%;
+    }
+}
+/* Checkout Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    color: #343a40;
+}
+
+form#checkoutForm {
+    max-width: 500px;
+    margin: 30px auto 20px auto;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+form#checkoutForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+form#checkoutForm input,
+form#checkoutForm textarea,
+form#checkoutForm select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+form#checkoutForm button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+
+form#checkoutForm button:hover {
+    background: #0056b3;
+}
+
+#orderSummary {
+    max-width: 500px;
+    margin: 0 auto 30px auto;
+    background: #fff;
+    padding: 25px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+#orderSummary h3 {
+    margin-top: 0;
+    color: #343a40;
+}
+
+#summaryList {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+#summaryList li {
+    padding: 6px 0;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+#totalAmount {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 18px;
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    form#checkoutForm, #orderSummary {
+        max-width: 95%;
+        padding: 15px 5px;
+    }
+}
+/* Login Page Styles */
+#loginForm {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#loginForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+#loginForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+#loginForm button[type="submit"] {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+#loginForm button[type="submit"]:hover {
+    background: #0056b3;
+}
+
+h2 {
+    text-align: center;
+    color: #343a40;
+    margin-top: 40px;
+}
+
+/* Error message styling */
+#loginError {
+    text-align: center;
+    color: #dc3545;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Sign Up button */
+button[type="button"] {
+    display: block;
+    margin: 20px auto;
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+
+button[type="button"]:hover {
+    background: #5a6268;
+}
+
+/* Responsive tweaks */
+@media (max-width: 500px) {
+    #loginForm {
+        max-width: 90%;
+        padding: 20px 15px;
+    }
+
+    #loginForm button,
+    button[type="button"] {
+        width: 100%;
+    }
+}
+/* Sign Up Page Styles */
+#signupForm {
+    max-width: 400px;
+    margin: 60px auto;
+    background: #fff;
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#signupForm label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+#signupForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+#signupForm button[type="submit"] {
+    background: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+#signupForm button[type="submit"]:hover {
+    background: #218838;
+}
+
+h2 {
+    text-align: center;
+    color: #343a40;
+    margin-top: 40px;
+}
+
+/* Back to Login Button */
+button[type="button"] {
+    display: block;
+    margin: 20px auto;
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+
+button[type="button"]:hover {
+    background: #5a6268;
+}
+
+/* Responsive tweaks */
+@media (max-width: 500px) {
+    #signupForm {
+        max-width: 90%;
+        padding: 20px 15px;
+    }
+
+    #signupForm button,
+    button[type="button"] {
+        width: 100%;
+    }
+}

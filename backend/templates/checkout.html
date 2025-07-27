@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div id="head">
+    <h1>My E-Commerce Site</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('cart') }}">Cart</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div id="content">
+    <h2>Checkout</h2>
+    <form id="checkoutForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required /><br><br>
+
+      <label for="address">Shipping Address:</label>
+      <textarea id="address" name="address" required></textarea><br><br>
+
+      <label for="payment">Payment Method:</label>
+      <select id="payment" name="payment" required>
+        <option value="">Select</option>
+        <option value="cod">Cash on Delivery</option>
+        <option value="card">Credit/Debit Card</option>
+      </select><br><br>
+
+      <button type="submit">Place Order</button>
+    </form>
+
+    <div id="orderSummary">
+      <h3>Order Summary</h3>
+      <ul id="summaryList"></ul>
+      <p id="totalAmount"></p>
+    </div>
+  </div>
+
+  <div id="footer">
+    <p>&copy; 2025 Your Company</p>
+  </div>
+
+  <script>
+    document.getElementById('checkoutForm').onsubmit = async function (e) {
+  e.preventDefault();
+  const name = document.getElementById('name').value;
+  const address = document.getElementById('address').value;
+  const payment = document.getElementById('payment').value;
+  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+
+  const order = { name, address, payment, cart };
+
+  const response = await fetch('/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(order)
+  });
+
+  if (response.ok) {
+    const respData = await response.json();
+    alert(`Order placed! Total: $${respData.total.toFixed(2)}`);
+    localStorage.removeItem('cart');
+    window.location.href = "{{ url_for('home') }}";
+  } else {
+    alert('Failed to place order.');
+  }
+};
+
+  </script>
+</body>
+</html>

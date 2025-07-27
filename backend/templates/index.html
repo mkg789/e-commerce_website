@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My E-Commerce Site</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div id="head">
+    <h1>My E-Commerce Site</h1>
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('cart') }}">Cart(<span id="cart-count">0</span>)</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+
+      </ul>
+    </nav>
+  </div>
+
+  <div id="content">
+    <h1>Welcome to the Frontend</h1>
+    <p>This is a simple HTML page.</p>
+
+    <div id="catalog">
+      <h2>Product Catalog</h2>
+
+      <div class="item">
+        <h3>Choco bar</h3>
+        <p>Description of Choco bar</p>
+        <p>Price: $10.00</p>
+        <div class="quantity-controls">
+          <button onclick="decreaseQuantity('chocobar')">-</button>
+          <span id="qty-chocobar">0</span>
+          <button onclick="increaseQuantity('chocobar')">+</button>
+        </div>
+        <button onclick="addToCart('chocobar')">Add to Cart</button>
+      </div>
+
+      <div class="item">
+        <h3>Noodels</h3>
+        <p>Description of Noodels</p>
+        <p>Price: $15.00</p>
+        <div class="quantity-controls">
+          <button onclick="decreaseQuantity('noodels')">-</button>
+          <span id="qty-noodels">0</span>
+          <button onclick="increaseQuantity('noodels')">+</button>
+        </div>
+        <button onclick="addToCart('noodels')">Add to Cart</button>
+      </div>
+
+      <!-- Add more items as needed -->
+    </div>
+  </div>
+
+  <div id="footer">
+    <p>&copy; 2025 Your Company</p>
+  </div>
+
+  <script>
+    // Quantity control functions
+    function increaseQuantity(productId) {
+      const qtySpan = document.getElementById("qty-" + productId);
+      let qty = parseInt(qtySpan.textContent, 10);
+      qtySpan.textContent = qty + 1;
+    }
+
+    function decreaseQuantity(productId) {
+      const qtySpan = document.getElementById("qty-" + productId);
+      let qty = parseInt(qtySpan.textContent, 10);
+      if (qty > 0) qtySpan.textContent = qty - 1;
+    }
+
+    function addToCart(productId) {
+      const qty = parseInt(document.getElementById("qty-" + productId).textContent, 10);
+      if (qty > 0) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        cart[productId] = (cart[productId] || 0) + qty;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        window.location.href = "{{ url_for('cart') }}"; // Redirect via Flask route
+      } else {
+        alert("Please select at least 1 unit.");
+      }
+    }
+
+    // Update cart count in nav
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || {};
+      let totalItems = Object.values(cart).reduce((acc, qty) => acc + qty, 0);
+      document.getElementById("cart-count").textContent = totalItems;
+    }
+
+    // Initialize cart count on page load
+    window.onload = updateCartCount;
+  </script>
+</body>
+</html>
