@@ -8,47 +8,46 @@
 </head>
 <body>
   <div id="head">
-    <h1>My E-Commerce Site</h1>
+    <h1>MKg E-Commerce Site</h1>
     <nav>
       <ul>
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li><a href="{{ url_for('cart') }}">Cart(<span id="cart-count">0</span>)</a></li>
         <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+        <li id="user-info" style="display: none;"></li>
+        <li id="logout-link" style="display: none;"><a href="#" onclick="logout()">Logout</a></li>
+
 
       </ul>
     </nav>
   </div>
 
   <div id="content">
-    <h1>Welcome to the Frontend</h1>
-    <p>This is a simple HTML page.</p>
+    <h1>Welcome to the MKg E-Commerce Site</h1>
+    <p>Lets do something amazing!</p>
 
-    <div id="catalog">
-      <h2>Product Catalog</h2>
-
-      <div class="item">
-        <h3>Choco bar</h3>
-        <p>Description of Choco bar</p>
-        <p>Price: $10.00</p>
-        <div class="quantity-controls">
-          <button onclick="decreaseQuantity('chocobar')">-</button>
-          <span id="qty-chocobar">0</span>
-          <button onclick="increaseQuantity('chocobar')">+</button>
+      
+      <div id="catalog">
+      {% for product in products %}
+      <div class="item product-card">
+        <h3>{{ product[1] }}</h3>
+        <div class="image-container">
+          <img src="{{ url_for('static', filename=product[4] if product[4] else 'images/default.jpg') }}" alt="{{ product[1] }}">
         </div>
-        <button onclick="addToCart('chocobar')">Add to Cart</button>
-      </div>
-
-      <div class="item">
-        <h3>Noodels</h3>
-        <p>Description of Noodels</p>
-        <p>Price: $15.00</p>
+        <p>{{ product[3] }}</p>
+        <p>Price: ${{ product[2] }}</p>
         <div class="quantity-controls">
-          <button onclick="decreaseQuantity('noodels')">-</button>
-          <span id="qty-noodels">0</span>
-          <button onclick="increaseQuantity('noodels')">+</button>
+          <button onclick="decreaseQuantity('{{ product[1]|lower|replace(' ', '') }}')">-</button>
+          <span id="qty-{{ product[1]|lower|replace(' ', '') }}">0</span>
+          <button onclick="increaseQuantity('{{ product[1]|lower|replace(' ', '') }}')">+</button>
         </div>
-        <button onclick="addToCart('noodels')">Add to Cart</button>
+        <button onclick="addToCart('{{ product[1]|lower|replace(' ', '') }}')">Add to Cart</button>
       </div>
+      {% endfor %}
+</div>
+
+
 
       <!-- Add more items as needed -->
     </div>
@@ -91,6 +90,30 @@
       let totalItems = Object.values(cart).reduce((acc, qty) => acc + qty, 0);
       document.getElementById("cart-count").textContent = totalItems;
     }
+     
+    function updateUserDisplay() {
+      const username = localStorage.getItem('username');
+      const userInfo = document.getElementById('user-info');
+      const logoutLink = document.getElementById('logout-link');
+
+      if (username) {
+        userInfo.textContent = `Hello, ${username}`;
+        userInfo.style.display = 'inline';
+        logoutLink.style.display = 'inline';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('username');
+      localStorage.removeItem('cart');
+      window.location.href = '/login';
+    }
+
+    window.onload = function () {
+      updateUserDisplay();
+      updateCartCount?.(); // Optional if cart count exists
+    };
+
 
     // Initialize cart count on page load
     window.onload = updateCartCount;

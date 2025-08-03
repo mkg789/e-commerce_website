@@ -43,45 +43,63 @@
   </div>
 
   <script>
-    const prices = {
-      'chocobar': 10.00,
-      'noodels': 15.00
-      // Add more product prices here
-    };
+  const prices = {{ price_map | tojson }};
 
-    function removeFromCart(item) {
-      let cart = JSON.parse(localStorage.getItem('cart')) || {};
-      delete cart[item];
+  function normalizeKey(item) {
+    return item.toLowerCase();
+  }
+
+  function removeFromCart(item) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    delete cart[normalizeKey(item)];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    loadCart();
+  }
+
+  function updateQty(item, delta) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    let key = normalizeKey(item);
+    if (cart[key] != null) {
+      cart[key] += delta;
+      if (cart[key] <= 0) delete cart[key];
       localStorage.setItem('cart', JSON.stringify(cart));
-      loadCart(); // Reload cart contents
+      loadCart();
+    }
+  }
+
+  function loadCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || {};
+    let tbody = document.getElementById('cart-table-body');
+    tbody.innerHTML = '';
+    let total = 0;
+
+    for (let key in cart) {
+      let qty = cart[key];
+      let price = prices[key] || 0;
+      let itemTotal = qty * price;
+      total += itemTotal;
+
+      let itemDisplay = key;  // Display name — improve if you store original names
+
+      tbody.innerHTML += `
+        <tr>
+          <td>${itemDisplay}</td>
+          <td>
+            <button onclick="updateQty('${key}', -1)">-</button>
+            <span id="qty-${key}">${qty}</span>
+            <button onclick="updateQty('${key}', 1)">+</button>
+          </td>
+          <td>$${itemTotal.toFixed(2)}</td>
+          <td><button onclick="removeFromCart('${key}')">Remove</button></td>
+        </tr>
+      `;
     }
 
-    function loadCart() {
-      let cart = JSON.parse(localStorage.getItem('cart')) || {};
-      let tbody = document.getElementById('cart-table-body');
-      tbody.innerHTML = '';
-      let total = 0;
+    document.getElementById('total-price').textContent = `Total: $${total.toFixed(2)}`;
+  }
 
-      for (let item in cart) {
-        let qty = cart[item];
-        let price = prices[item] || 0;
-        let itemTotal = qty * price;
-        total += itemTotal;
+  window.onload = loadCart;
+</script>
 
-        tbody.innerHTML += `
-          <tr>
-            <td>${item}</td>
-            <td>${qty}</td>
-            <td>$${itemTotal.toFixed(2)}</td>
-            <td><button onclick="removeFromCart('${item}')">Remove</button></td>
-          </tr>
-        `;
-      }
-
-      document.getElementById('total-price').textContent = `Total: $${total.toFixed(2)}`;
-    }
-
-    window.onload = loadCart;
-  </script>
 </body>
 </html>
