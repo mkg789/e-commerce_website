@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My E-Commerce Site</title>
+  <title>MKg E-Commerce Site</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
 </head>
 <body>
@@ -17,40 +17,48 @@
         <li><a href="{{ url_for('admin') }}">Admin</a></li>
         <li id="user-info" style="display: none;"></li>
         <li id="logout-link" style="display: none;"><a href="#" onclick="logout()">Logout</a></li>
-
-
       </ul>
     </nav>
   </div>
 
   <div id="content">
     <h1>Welcome to the MKg E-Commerce Site</h1>
-    <p>Lets do something amazing!</p>
+    <p>Let's do something amazing!</p>
 
-      
+    {% set categories = {} %}
+    {% for product in products %}
+      {% set cat = product[5] or 'Uncategorized' %}
+      {% if categories[cat] is not defined %}
+        {% set _ = categories.update({cat: []}) %}
+      {% endif %}
+      {% set _ = categories[cat].append(product) %}
+    {% endfor %}
+
+    {% for category, items in categories.items() %}
+      <h2>{{ category }}</h2>
       <div id="catalog">
-      {% for product in products %}
-      <div class="item product-card">
-        <h3>{{ product[1] }}</h3>
-        <div class="image-container">
-          <img src="{{ url_for('static', filename=product[4] if product[4] else 'images/default.jpg') }}" alt="{{ product[1] }}">
-        </div>
-        <p>{{ product[3] }}</p>
-        <p>Price: ${{ product[2] }}</p>
-        <div class="quantity-controls">
-          <button onclick="decreaseQuantity('{{ product[1]|lower|replace(' ', '') }}')">-</button>
-          <span id="qty-{{ product[1]|lower|replace(' ', '') }}">0</span>
-          <button onclick="increaseQuantity('{{ product[1]|lower|replace(' ', '') }}')">+</button>
-        </div>
-        <button onclick="addToCart('{{ product[1]|lower|replace(' ', '') }}')">Add to Cart</button>
+        {% for product in items %}
+          {% set key = product[1]|lower|replace(' ', '') %}
+          <div class="item product-card">
+            <h3>{{ product[1] }}</h3>
+            <div class="image-container">
+              <img src="{{ url_for('static', filename=product[4] if product[4] else 'images/default.jpg') }}" alt="{{ product[1] }}">
+            </div>
+            <p>{{ product[3] }}</p>
+            <p>Price: ${{ product[2] }}</p>
+            <p><strong>Available: {{ product[6] }}</strong></p>
+
+            <div class="quantity-controls">
+              <button onclick="decreaseQuantity('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>-</button>
+              <span id="qty-{{ key }}">0</span>
+              <button onclick="increaseQuantity('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>+</button>
+            </div>
+
+            <button onclick="addToCart('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>Add to Cart</button>
+          </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-</div>
-
-
-
-      <!-- Add more items as needed -->
-    </div>
+    {% endfor %}
   </div>
 
   <div id="footer">
@@ -58,7 +66,6 @@
   </div>
 
   <script>
-    // Quantity control functions
     function increaseQuantity(productId) {
       const qtySpan = document.getElementById("qty-" + productId);
       let qty = parseInt(qtySpan.textContent, 10);
@@ -78,19 +85,18 @@
         cart[productId] = (cart[productId] || 0) + qty;
         localStorage.setItem("cart", JSON.stringify(cart));
         updateCartCount();
-        window.location.href = "{{ url_for('cart') }}"; // Redirect via Flask route
+        window.location.href = "{{ url_for('cart') }}";
       } else {
         alert("Please select at least 1 unit.");
       }
     }
 
-    // Update cart count in nav
     function updateCartCount() {
       let cart = JSON.parse(localStorage.getItem("cart")) || {};
       let totalItems = Object.values(cart).reduce((acc, qty) => acc + qty, 0);
       document.getElementById("cart-count").textContent = totalItems;
     }
-     
+
     function updateUserDisplay() {
       const username = localStorage.getItem('username');
       const userInfo = document.getElementById('user-info');
@@ -111,12 +117,8 @@
 
     window.onload = function () {
       updateUserDisplay();
-      updateCartCount?.(); // Optional if cart count exists
+      updateCartCount();
     };
-
-
-    // Initialize cart count on page load
-    window.onload = updateCartCount;
   </script>
 </body>
 </html>

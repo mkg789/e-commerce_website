@@ -1,7 +1,9 @@
 import sqlite3
+import os
 
 def init_db():
-    conn = sqlite3.connect('ecommerce.db')
+    db_path = os.path.join(os.path.dirname(__file__), 'ecommerce.db')
+    conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     # Create users table
@@ -13,26 +15,18 @@ def init_db():
         )
     ''')
 
-    # Create products table with image_url
+    # Create products table with stock and image columns
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             price REAL NOT NULL,
             description TEXT,
-            image_url TEXT
+            image TEXT,
+            category TEXT,
+            stock INTEGER DEFAULT 0
         )
     ''')
-
-    # Seed products (optional)
-    products = [
-        ("Choco bar", 10.00, "Delicious chocolate bar", None),
-        ("Noodels", 15.00, "Hot instant noodles", None)
-    ]
-    try:
-        cursor.executemany('INSERT INTO products (name, price, description, image_url) VALUES (?, ?, ?, ?)', products)
-    except sqlite3.IntegrityError:
-        pass  # Products already added, skip
 
     # Create orders table
     cursor.execute('''
@@ -64,6 +58,6 @@ def init_db():
     conn.commit()
     conn.close()
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     init_db()
+    print("Database initialization script executed.")

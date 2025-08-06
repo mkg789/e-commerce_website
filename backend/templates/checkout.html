@@ -34,7 +34,7 @@
         <option value="card">Credit/Debit Card</option>
       </select><br><br>
 
-      <button type="submit">Place Order</button>
+      <button type="submit" id="submitBtn">Place Order</button>
     </form>
 
     <div id="orderSummary">
@@ -49,31 +49,84 @@
   </div>
 
   <script>
+    // Assuming price_map and name_map are passed from backend (similar to cart.html)
+    const prices = {{ price_map | tojson }};
+    const nameMap = {{ name_map | tojson }};
+
+    function loadOrderSummary() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || {};
+      const summaryList = document.getElementById('summaryList');
+      const totalAmount = document.getElementById('totalAmount');
+
+      summaryList.innerHTML = '';
+      let total = 0;
+      const keys = Object.keys(cart);
+
+      if (keys.length === 0) {
+        summaryList.innerHTML = '<li>Your cart is empty.</li>';
+        totalAmount.textContent = '';
+        document.getElementById('submitBtn').disabled = true;
+        return;
+      }
+      document.getElementById('submitBtn').disabled = false;
+
+      keys.forEach(key => {
+        const qty = cart[key];
+        const price = prices[key] || 0;
+        const itemTotal = qty * price;
+        total += itemTotal;
+        const itemName = nameMap[key] || key;
+        const li = document.createElement('li');
+        li.textContent = `${itemName} — Quantity: ${qty} — Price: $${itemTotal.toFixed(2)}`;
+        summaryList.appendChild(li);
+      });
+
+      totalAmount.textContent = `Total: $${total.toFixed(2)}`;
+    }
+
     document.getElementById('checkoutForm').onsubmit = async function (e) {
-  e.preventDefault();
-  const name = document.getElementById('name').value;
-  const address = document.getElementById('address').value;
-  const payment = document.getElementById('payment').value;
-  const cart = JSON.parse(localStorage.getItem('cart')) || {};
+      e.preventDefault();
 
-  const order = { name, address, payment, cart };
+      const cart = JSON.parse(localStorage.getItem('cart')) || {};
+      if (Object.keys(cart).length === 0) {
+        alert("Your cart is empty. Please add items before checking out.");
+        return;
+      }
 
-  const response = await fetch('/checkout', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(order)
-  });
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Processing...";
 
-  if (response.ok) {
-    const respData = await response.json();
-    alert(`Order placed! Total: $${respData.total.toFixed(2)}`);
-    localStorage.removeItem('cart');
-    window.location.href = "{{ url_for('home') }}";
-  } else {
-    alert('Failed to place order.');
-  }
-};
+      const name = document.getElementById('name').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const payment = document.getElementById('payment').value;
 
+      const order = { name, address, payment, cart };
+
+      try {
+        const response = await fetch('/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(order)
+        });
+
+        if (response.ok) {
+          const respData = await response.json();
+          alert(`Order placed successfully! Total: $${respData.total.toFixed(2)}`);
+          localStorage.removeItem('cart');
+          window.location.href = "{{ url_for('home') }}";
+        } else {
+          alert('Failed to place order. Please try again.');
+        }
+      } catch (error) {
+        alert('An error occurred while placing your order.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Place Order";
+      }
+    };
+
+    window.onload = loadOrderSummary;
   </script>
 </body>
 </html>
