@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <title>Login</title>
+</head>
+<body>
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input type="text" name="username" placeholder="Username" required autocomplete="username" aria-label="Username" />
+    <input type="password" name="password" placeholder="Password" required autocomplete="current-password" aria-label="Password" />
+    <button type="submit">Login</button>
+  </form>
+
+  <button onclick="window.location.href='{{ url_for('signup') }}'">
+    Sign Up
+  </button>
+
+  <a href="{{ url_for('home') }}">← Back to Home</a>
+
+  <script>
+    document.getElementById('loginForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!res.ok) throw new Error('Network response was not ok');
+
+        const result = await res.json();
+        alert(result.message);
+        if (result.success) {
+          localStorage.setItem('username', data.username);
+          window.location.href = '/';
+        }
+      } catch (error) {
+        alert('There was a problem logging in. Please try again.');
+        console.error('Login error:', error);
+      }
+    };
+  </script>
+</body>
+</html>

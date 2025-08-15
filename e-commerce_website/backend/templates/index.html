@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MKg E-Commerce Site</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+      <div class="left-section">
+        <h1 class="logo">
+          <a href="{{ url_for('home') }}"><span class="brand">MKg</span> E-Commerce Site</a>
+        </h1>
+      </div>
+
+
+      <div class="center-section" role="search">
+        <div class="search-container">
+          <label for="search-bar" class="visually-hidden">Search</label>
+          <input type="text" id="search-bar" placeholder="Search products..." aria-label="Search products" onkeyup="filterProducts()" />
+          <button type="button" id="search-button" class="search-icon" onclick="filterProducts()" aria-label="Search">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+
+
+      <div class="right-section">
+        <div class="address">123 Main St</div>
+        <nav class="user-actions">
+          <a href="{{ url_for('login') }}" class="icon-link" aria-label="Login to your account">
+            <i class="fa fa-user" aria-hidden="true"></i> <span class="text">Login</span>
+          </a>
+          <a href="{{ url_for('cart') }}" class="icon-link" aria-label="View your shopping cart">
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            (<span id="cart-count">0</span>)
+          </a>
+        </nav>
+      </div>
+
+  </header>
+
+  <!-- CONTENT -->
+  <div id="content">
+
+    {% set categories = {} %}
+    {% for product in products %}
+      {% set cat = product[5] or 'Uncategorized' %}
+      {% if categories[cat] is not defined %}
+        {% set _ = categories.update({cat: []}) %}
+      {% endif %}
+      {% set _ = categories[cat].append(product) %}
+    {% endfor %}
+
+    <!-- Category Icons -->
+    <div class="categories">
+      {% for category, items in categories.items() %}
+        <div class="category-item" onclick="scrollToCategory('{{ category|replace(' ', '') }}')">
+          <div class="category-icon">
+            {% if category|lower == 'electronics' %}
+              <i class="fa-solid fa-tv"></i>
+            {% elif category|lower == 'clothing' %}
+              <i class="fa-solid fa-tshirt"></i>
+            {% elif category|lower == 'books' %}
+              <i class="fa-solid fa-book"></i>
+            {% elif category|lower == 'sports' %}
+              <i class="fa-solid fa-football-ball"></i>
+            {% else %}
+              <i class="fa-solid fa-box-open"></i>
+            {% endif %}
+          </div>
+          <div class="category-name">{{ category }}</div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Category Products -->
+    {% for category, items in categories.items() %}
+      <h2 id="{{ category|replace(' ', '') }}">{{ category }}</h2>
+      <div id="catalog" class="category-products">
+        {% for product in items %}
+          {% set key = product[1]|lower|replace(' ', '') %}
+          <div class="item product-card" data-product-name="{{ product[1]|lower }}">
+            <h3>{{ product[1] }}</h3>
+            <div class="image-container">
+              <img src="{{ url_for('static', filename=product[4] if product[4] else 'images/default.jpg') }}" alt="{{ product[1] }}">
+            </div>
+            <p>{{ product[3] }}</p>
+            <p>Price: ${{ product[2] }}</p>
+            <p><strong>Available: {{ product[6] }}</strong></p>
+
+            <div class="quantity-controls">
+              <button onclick="decreaseQuantity('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>-</button>
+              <span id="qty-{{ key }}">0</span>
+              <button onclick="increaseQuantity('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>+</button>
+            </div>
+
+            <button onclick="addToCart('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>Add to Cart</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    <!-- Trending -->
+    <h2>Trending Products</h2>
+    <div id="catalog">
+      {% for product in trending %}
+        {% set key = product[1]|lower|replace(' ', '') %}
+        <div class="product-card" data-product-name="{{ product[1]|lower }}">
+          <div class="image-container">
+            <img src="{{ url_for('static', filename=product[4] if product[4] else 'images/default.jpg') }}" alt="{{ product[1] }}">
+          </div>
+          <h3>{{ product[1] }}</h3>
+          <p class="product-price">${{ '%.2f'|format(product[2]) }}</p>
+          <button onclick="addToCart('{{ key }}')" {% if product[6] <= 0 %}disabled{% endif %}>Add to Cart</button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-content">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <h4>About</h4>
+        <p>MKg E-Commerce is your one-stop shop for quality products.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Links</h4>
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>Email: support@mkg.com</p>
+      </div>
+    </div>
+    <p class="copyright">
+      &copy; 2025 <strong>MKg E-Commerce</strong>. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+  <!-- JS -->
+  <script>
+    function increaseQuantity(productId) {
+      const qtySpan = document.getElementById("qty-" + productId);
+      let qty = parseInt(qtySpan.textContent, 10);
+      qtySpan.textContent = qty + 1;
+    }
+
+    function decreaseQuantity(productId) {
+      const qtySpan = document.getElementById("qty-" + productId);
+      let qty = parseInt(qtySpan.textContent, 10);
+      if (qty > 0) qtySpan.textContent = qty - 1;
+    }
+
+    function addToCart(productId) {
+      const qtyElem = document.getElementById("qty-" + productId);
+      const qty = qtyElem ? parseInt(qtyElem.textContent, 10) : 1;
+      if (qty > 0) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || {};
+        cart[productId] = (cart[productId] || 0) + qty;
+        localStorage.setItem("cart", JSON.stringify(cart));
+        updateCartCount();
+        window.location.href = "{{ url_for('cart') }}";
+      } else {
+        alert("Please select at least 1 unit.");
+      }
+    }
+
+    function updateCartCount() {
+      let cart = JSON.parse(localStorage.getItem("cart")) || {};
+      let totalItems = Object.values(cart).reduce((acc, qty) => acc + qty, 0);
+      document.getElementById("cart-count").textContent = totalItems;
+    }
+
+    function scrollToCategory(categoryId) {
+      const el = document.getElementById(categoryId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function filterProducts() {
+      const query = document.getElementById('search-bar').value.toLowerCase();
+      const productCards = document.querySelectorAll('.product-card, .trending-product-card');
+
+      productCards.forEach(card => {
+        const name = card.getAttribute('data-product-name');
+        if (name.includes(query)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    window.onload = function () {
+      updateCartCount();
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,823 @@
+/* === CSS Variables (Theme) === */
+:root {
+  /* Fonts & Typography */
+  --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Colors */
+  --primary: #007bff;
+  --primary-hover: #0056b3;
+  --secondary: #28a745;
+  --secondary-hover: #218838;
+  --danger: #e74c3c;
+  --danger-hover: #c0392b;
+  --info: #17a2b8;
+  --info-hover: #138496;
+
+  --bg-light: #f2f4f8;
+  --bg-dark: #1e1e2f;
+  --bg-darker: #2c2c3c;
+  --text: #333;
+  --text-light: #fff;
+  --text-muted: #999;
+
+  --border: #ccc;
+  --radius: 12px;
+
+  /* Shadows */
+  --shadow-light: 0 6px 20px rgba(0, 0, 0, 0.05);
+  --shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* Transitions */
+  --transition: 0.3s ease;
+}
+
+/* === Global Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-light);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+/* === Utilities === */
+.text-center {
+  text-align: center;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mb-40 {
+  margin-bottom: 40px;
+}
+
+/* Reset & base styles header */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.site-header {
+  background-color: #fff;
+  padding: 15px 30px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.site-header .left-section,
+.site-header .center-section,
+.site-header .right-section {
+  display: flex;
+  align-items: center;
+}
+
+/* Container flex layout */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Left Section */
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo a {
+  text-decoration: none;
+  color: #333;
+}
+
+.logo .brand {
+  color: #007BFF;
+}
+
+/* Center Section - Search */
+.center-section {
+  flex: 1;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+#search-bar {
+  width: 100%;
+  padding: 10px 40px 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Right Section */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  text-align: right;
+}
+
+.address {
+  font-size: 14px;
+  color: #555;
+}
+
+.user-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.icon-link {
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.icon-link i {
+  font-size: 16px;
+}
+
+/* Visually Hidden Label */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .left-section,
+  .center-section,
+  .right-section {
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .right-section {
+    align-items: center;
+  }
+}
+}
+
+
+/* === Main Content === */
+#content {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-light);
+}
+
+/* Footer base styles */
+#footer {
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 40px 20px 20px;
+  border-top: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Footer columns */
+.footer-columns {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-col {
+  flex: 1 1 250px;
+  min-width: 200px;
+}
+
+.footer-col h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #007BFF;
+}
+
+.footer-col p,
+.footer-col li {
+  color: #555;
+  line-height: 1.6;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li a {
+  text-decoration: none;
+  color: #555;
+  transition: color 0.3s;
+}
+
+.footer-col ul li a:hover {
+  color: #007BFF;
+}
+
+/* Copyright */
+#footer .copyright {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .footer-columns {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-col {
+    max-width: 100%;
+  }
+}
+
+
+/* === Table === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+th, td {
+  padding: 16px;
+  text-align: center;
+  border-bottom: 1px solid #ececec;
+}
+th {
+  background: #333;
+  color: var(--text-light);
+}
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* === Buttons === */
+button {
+  background: var(--primary);
+  color: var(--text-light);
+  padding: 10px 22px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--transition), transform var(--transition);
+}
+button:hover {
+  background: var(--primary-hover);
+  transform: scale(1.02);
+}
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+button.remove {
+  background: var(--danger);
+}
+button.remove:hover {
+  background: var(--danger-hover);
+}
+
+/* === Quantity Controls === */
+.quantity-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.quantity-controls button {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  background: var(--info);
+}
+.quantity-controls button:hover {
+  background: var(--info-hover);
+}
+
+/* === Total Price === */
+#total-price {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 1.375rem;
+  font-weight: bold;
+  color: var(--secondary);
+}
+
+/* === Forms === */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+input,
+textarea,
+select {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 100%;
+  transition: border var(--transition), box-shadow var(--transition);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* === Auth & Checkout Forms === */
+#loginForm,
+#signupForm,
+#checkoutForm {
+  max-width: 450px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px 35px;
+  border-radius: var(--radius, 8px);       /* fallback if --radius is not defined */
+  box-shadow: var(--shadow-light, 0 4px 12px rgba(0, 0, 0, 0.1)); /* fallback */
+  box-sizing: border-box;
+  font-family: inherit;
+  color: #333;
+  transition: box-shadow 0.3s ease;
+}
+
+#loginForm:hover,
+#signupForm:hover,
+#checkoutForm:hover {
+  box-shadow: var(--shadow-medium, 0 6px 18px rgba(0, 0, 0, 0.15));
+}
+
+/* Inputs inside forms */
+#loginForm input,
+#signupForm input,
+#checkoutForm input {
+  display: block;
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+  color: inherit;
+}
+
+#loginForm input:focus,
+#signupForm input:focus,
+#checkoutForm input:focus {
+  border-color: #4CAF50;
+  outline: none;
+}
+
+/* Buttons inside forms */
+#loginForm button,
+#signupForm button,
+#checkoutForm button {
+  width: 100%;
+  padding: 8px 10px;      /* smaller padding */
+  font-size: 0.9rem;      /* slightly smaller font */
+  cursor: pointer;
+  border-radius: 5px;     /* slightly smaller radius */
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  transition: background-color 0.3s ease;
+  font-family: inherit;
+}
+
+#loginForm button:hover,
+#signupForm button:hover,
+#checkoutForm button:hover {
+  background-color: #45a049;
+}
+
+/* Style for sign-up button outside forms */
+button:not(#loginForm button):not(#signupForm button):not(#checkoutForm button):not(.qty-btn):not(.remove-btn):not(#search-button) {
+  display: block;
+  margin: 10px auto;
+  padding: 12px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  background-color: #2196F3;
+  color: white;
+  transition: background-color 0.3s ease;
+  max-width: 450px;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+button:not(#loginForm button):not(#signupForm button):not(#checkoutForm button):hover {
+  background-color: #1976d2;
+}
+
+/* Back to home link */
+a {
+  display: block;
+  margin-top: 20px;
+  text-align: center;
+  color: #555;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: inherit;
+}
+
+a:hover {
+  color: #4CAF50;
+}
+
+/* === Quantity Buttons and Remove Button Styling === */
+/* Container for quantity controls */
+.quantity-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Quantity buttons */
+.qty-btn {
+  padding: 4px 8px;       /* Less padding */
+  font-size: 0.85rem;     /* Smaller font size */
+  min-width: unset;       /* Prevent auto-expansion */
+  width: 28px;
+  height: 28px;
+  line-height: 1;
+  text-align: center;
+  background-color: var(--info, #17a2b8);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.qty-btn:hover {
+  background-color: var(--info-hover, #138496);
+}
+
+/* Quantity number */
+.qty-display {
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+  display: inline-block;
+}
+
+/* Remove button smaller and consistent */
+.remove-btn {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  #loginForm,
+  #signupForm,
+  #checkoutForm,
+  button:not(#loginForm button):not(#signupForm button):not(#checkoutForm button),
+  a {
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+/* === Order Summary === */
+#orderSummary {
+  max-width: 450px;
+  margin: 0 auto 30px;
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-light);
+}
+#summaryList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#summaryList li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+#totalAmount {
+  text-align: right;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: var(--secondary);
+  margin-top: 10px;
+}
+
+/* === Product Catalog Grid === */
+#catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* === Product Card === */
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+  animation: fadeIn 0.4s ease-in;
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-dark);
+}
+.product-card .image-container {
+  height: 180px;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.product-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.product-card h3 {
+  margin: 10px 0 6px;
+  font-size: 1.125rem;
+  color: #222;
+}
+.product-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+.product-card button {
+  background: var(--secondary);
+  margin-top: 12px;
+}
+.product-card button:hover {
+  background: var(--secondary-hover);
+}
+
+
+
+/* === Categories === */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+  justify-content: center;
+}
+
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 50px;
+  text-align: center;
+}
+
+.category-item:hover {
+  background-color: #e0e0e0;
+}
+
+.category-icon {
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.category-name {
+  font-size: 11px;
+  color: #333;
+}
+
+/* === Header Layout with Search and Right Section === */
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  box-shadow: var(--shadow-dark);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* Header left: title */
+#header .left {
+  font-size: 1.8rem;
+  font-weight: 700;
+  flex: 1 1 auto;
+  white-space: nowrap;
+}
+
+/* Header center: search */
+#header .center {
+  flex: 2 1 480px;
+  max-width: 480px;
+  position: relative;
+}
+
+#header .center input[type="search"] {
+  width: 100%;
+  padding: 10px 40px 10px 40px;
+  border-radius: 8px;
+  border: 1px solid #555;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  color: #333;
+}
+
+#header .center input[type="search"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
+}
+
+/* Search icon inside search input */
+#header .center .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #888;
+  pointer-events: none;
+}
+
+/* Header right: address, login, cart icons */
+#header .right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+
+/* Address text */
+#header .right .address {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Icon buttons (login, cart) */
+#header .right .icon-btn {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.4rem;
+  cursor: pointer;
+  position: relative;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+#header .right .icon-btn:hover,
+#header .right .icon-btn:focus {
+  background-color: rgba(255 255 255 / 0.15);
+  outline: none;
+}
+
+/* Cart icon badge */
+#header .right .icon-btn.cart::after {
+  content: attr(data-count);
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: var(--danger);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 50%;
+  min-width: 16px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Responsive tweaks for header */
+@media (max-width: 768px) {
+  #header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  #header .center {
+    max-width: 100%;
+    flex:

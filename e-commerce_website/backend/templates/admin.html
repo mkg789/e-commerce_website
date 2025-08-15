@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Manage Products</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+<body>
+  <main>
+    <h1>Admin Dashboard: Manage Products</h1>
+
+    <section aria-labelledby="add-product-heading">
+      <h2 id="add-product-heading">Add New Product</h2>
+      <form action="{{ url_for('admin') }}" method="POST" enctype="multipart/form-data" novalidate>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required autocomplete="off" />
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" min="0" required />
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="category">Category:</label>
+        <input type="text" id="category" name="category" required />
+
+        <label for="quantity">Quantity Available:</label>
+        <input type="number" id="quantity" name="quantity" min="0" required />
+
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/*" required />
+
+        <button type="submit">Add Product</button>
+      </form>
+    </section>
+
+    <hr />
+
+    <section aria-labelledby="existing-products-heading">
+      <h2 id="existing-products-heading">Existing Products</h2>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Price</th>
+            <th scope="col">Description</th>
+            <th scope="col">Image</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td>{{ product[1] }}</td>
+            <td>{{ product[5] or 'Uncategorized' }}</td>
+            <td>${{ "%.2f"|format(product[2]) }}</td>
+            <td>{{ product[3] }}</td>
+            <td>
+              {% if product[4] %}
+                <img src="{{ url_for('static', filename=product[4]) }}" alt="{{ product[1] }}">
+              {% else %}
+                No image
+              {% endif %}
+            </td>
+            <td>{{ product[6] }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('update_quantity', product_id=product[0]) }}" class="inline-form" aria-label="Update quantity for {{ product[1] }}">
+                <input type="number" name="amount" placeholder="Qty" min="1" required />
+                <button type="submit" name="action" value="add" aria-label="Add quantity">+</button>
+                <button type="submit" name="action" value="remove" aria-label="Remove quantity">−</button>
+              </form>
+
+              <form method="POST" action="{{ url_for('delete_product', product_id=product[0]) }}" onsubmit="return confirm('Are you sure you want to delete this product?');" aria-label="Delete {{ product[1] }}">
+                <button type="submit" class="delete">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <a href="{{ url_for('home') }}">← Back to Home</a>
+  </main>
+</body>
+</html>
